@@ -1,0 +1,10 @@
+exec_prefix=@prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: Threading Building Blocks
+Description: Intel's parallelism library for C++
+URL: http://www.threadingbuildingblocks.org/
+Version: @version@
+Libs: -L${libdir} -ltbb
+Cflags: -I${includedir}
