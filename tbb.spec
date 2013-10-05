@@ -23,13 +23,14 @@ Source5:	%{name}.pc.in
 Source6:	%{name}malloc.pc.in
 Source7:	%{name}malloc_proxy.pc.in
 Patch1:		%{name}-cxxflags.patch
+Patch2:		mfence.patch
 URL:		http://www.threadingbuildingblocks.org/
 BuildRequires:	libstdc++-devel
 BuildRequires:	net-tools
 BuildRequires:	sed >= 4.0
 # We need "arch" and "hostname" binaries:
 BuildRequires:	util-linux
-ExclusiveArch:	%{ix86} %{x8664} ia64
+ExclusiveArch:	%{ix86} %{x8664} %{arm} ia64 ppc ppc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -84,7 +85,8 @@ Building Blocks (TBB).
 
 %prep
 %setup -q -n %{sourcebasename}
-#%patch1 -p1
+%patch1 -p1
+%patch2 -p1
 
 cp -p %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} .
 
@@ -100,9 +102,7 @@ sed -i -e 's/-march=pentium4//' build/linux.gcc.inc
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_libdir},%{_includedir}}
-
-cp -p %{SOURCE5} %{SOURCE6} %{SOURCE7} .
+install -d $RPM_BUILD_ROOT{%{_libdir},%{_includedir},%{_pkgconfigdir}}
 
 cd build/obj_release
 for file in tbb tbbmalloc tbbmalloc_proxy; do
@@ -117,7 +117,6 @@ find tbb -type f -name '*.h' -exec \
 	install -p -D -m 644 {} $RPM_BUILD_ROOT%{_includedir}/{} ';'
 cd -
 
-install -d $RPM_BUILD_ROOT%{_pkgconfigdir}
 for pc in tbb.pc tbbmalloc.pc tbbmalloc_proxy.pc; do
 	in=$pc.in
 	# fail if obsolete
