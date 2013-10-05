@@ -1,0 +1,10 @@
+exec_prefix=@prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: Threading Building Blocks Scallable Malloc Proxy
+Description: Implementation of proxy that redirects memory allocation calls to TBB Scalable Memory Allocator
+URL: http://www.threadingbuildingblocks.org/
+Version: @version@
+Libs: -L${libdir} -ltbbmalloc_proxy -ltbbmalloc
+Cflags: -I${includedir}

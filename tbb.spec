@@ -1,6 +1,6 @@
-%define		major 	3
-%define		minor	0
-%define		micro	127
+%define		major 	4
+%define		minor	1
+%define		micro	20130314
 %define		sourcebasename tbb%{major}%{minor}_%{micro}oss
 Summary:	The Threading Building Blocks library abstracts low-level threading details
 Summary(pl.UTF-8):	Threading Building Blocks - biblioteka abstrahująca niskopoziomowe szczegóły obsługi wątków
@@ -9,8 +9,8 @@ Version:	%{major}.%{minor}.%{micro}
 Release:	1
 License:	GPL v2 with runtime exception
 Group:		Development/Tools
-Source0:	http://www.threadingbuildingblocks.org/uploads/78/162/3.0%20update%204/%{sourcebasename}_src.tgz
-# Source0-md5:	c911f74f3d207358bb5554614b276c39
+Source0:	http://threadingbuildingblocks.org/sites/default/files/software_releases/source/%{sourcebasename}_src.tgz
+# Source0-md5:	ed4af7ccfa122f16cf9920b241633a3a
 Source1:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Design_Patterns.pdf
 # Source1-md5:	46062fef922d39abfd464bc06e02cdd8
 Source2:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Getting_Started.pdf
@@ -20,6 +20,8 @@ Source3:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20So
 Source4:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Tutorial.pdf
 # Source4-md5:	5bbdd1050c5dac5c1b782a6a98db0c46
 Source5:	%{name}.pc.in
+Source6:	%{name}malloc.pc.in
+Source7:	%{name}malloc_proxy.pc.in
 Patch1:		%{name}-cxxflags.patch
 URL:		http://www.threadingbuildingblocks.org/
 BuildRequires:	libstdc++-devel
@@ -82,9 +84,11 @@ Building Blocks (TBB).
 
 %prep
 %setup -q -n %{sourcebasename}
-%patch1 -p1
+#%patch1 -p1
 
 cp -p %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} .
+
+cp -p %{SOURCE5} %{SOURCE6} %{SOURCE7} .
 
 sed -i -e 's/-march=pentium4//' build/linux.gcc.inc
 
@@ -98,8 +102,10 @@ sed -i -e 's/-march=pentium4//' build/linux.gcc.inc
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_libdir},%{_includedir}}
 
+cp -p %{SOURCE5} %{SOURCE6} %{SOURCE7} .
+
 cd build/obj_release
-for file in tbb tbbmalloc tbbmalloc_proxy ; do
+for file in tbb tbbmalloc tbbmalloc_proxy; do
 	install lib${file}.so.2 $RPM_BUILD_ROOT%{_libdir}/lib${file}.so.2.%{version}
 	ln -s lib${file}.so.2.%{version} $RPM_BUILD_ROOT%{_libdir}/lib${file}.so
 	ln -s lib${file}.so.2.%{version} $RPM_BUILD_ROOT%{_libdir}/lib${file}.so.2
@@ -109,11 +115,20 @@ cd -
 cd include
 find tbb -type f -name '*.h' -exec \
 	install -p -D -m 644 {} $RPM_BUILD_ROOT%{_includedir}/{} ';'
+cd -
 
-# fail if obsolete
-[ ! -f $RPM_BUILD_ROOT%{_pkgconfigdir}/tbb.pc ] || exit 1
 install -d $RPM_BUILD_ROOT%{_pkgconfigdir}
-sed -e 's,@prefix@,%{_prefix},;s,@libdir@,%{_libdir},;s,@includedir@,%{_includedir}/tbb,;s,@version@,%{version},' %{SOURCE5} >$RPM_BUILD_ROOT%{_pkgconfigdir}/tbb.pc
+for pc in tbb.pc tbbmalloc.pc tbbmalloc_proxy.pc; do
+	in=$pc.in
+	# fail if obsolete
+	[ ! -f $RPM_BUILD_ROOT%{_pkgconfigdir}/$pc ] || exit 1
+	sed -e '
+		s,@prefix@,%{_prefix},;
+		s,@libdir@,%{_libdir},;
+		s,@includedir@,%{_includedir}/tbb,;
+		s,@version@,%{version},
+	' $in > $RPM_BUILD_ROOT%{_pkgconfigdir}/$pc
+done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -138,6 +153,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libtbbmalloc_proxy.so
 %{_includedir}/tbb
 %{_pkgconfigdir}/tbb.pc
+%{_pkgconfigdir}/tbbmalloc.pc
+%{_pkgconfigdir}/tbbmalloc_proxy.pc
 
 %files doc
 %defattr(644,root,root,755)
