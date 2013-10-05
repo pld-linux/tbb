@@ -26,9 +26,9 @@ Patch1:		%{name}-cxxflags.patch
 Patch2:		mfence.patch
 URL:		http://www.threadingbuildingblocks.org/
 BuildRequires:	libstdc++-devel
-BuildRequires:	net-tools
+BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
-# We need "arch" and "hostname" binaries:
+# We need "arch" binary:
 BuildRequires:	util-linux
 ExclusiveArch:	%{ix86} %{x8664} %{arm} ia64 ppc ppc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
