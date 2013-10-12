@@ -31,6 +31,8 @@ BuildRequires:	sed >= 4.0
 # We need "arch" binary:
 BuildRequires:	util-linux
 ExclusiveArch:	%{ix86} %{x8664} %{arm} ia64 ppc ppc64
+# __TBB_machine_cmpswp8 uses gcc's __sync_val_compare_and_swap8 or directly cmpxchg8b asm instruction
+ExcludeArch:	i386 i486
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
