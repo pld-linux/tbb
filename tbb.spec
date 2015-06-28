@@ -1,4 +1,4 @@
-%define		major 	4
+%define		major	4
 %define		minor	3
 %define		micro	20150611
 %define		sourcebasename tbb%{major}%{minor}_%{micro}oss
@@ -6,7 +6,7 @@ Summary:	The Threading Building Blocks library abstracts low-level threading det
 Summary(pl.UTF-8):	Threading Building Blocks - biblioteka abstrahująca niskopoziomowe szczegóły obsługi wątków
 Name:		tbb
 Version:	%{major}.%{minor}.%{micro}
-Release:	1
+Release:	2
 License:	GPL v2 with runtime exception
 Group:		Development/Tools
 # Source0Download: https://www.threadingbuildingblocks.org/download
@@ -23,6 +23,7 @@ Source4:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20So
 Source5:	%{name}.pc.in
 Source6:	%{name}malloc.pc.in
 Source7:	%{name}malloc_proxy.pc.in
+Patch0:		no-forced-arch-bits.patch
 Patch1:		%{name}-cxxflags.patch
 Patch2:		mfence.patch
 URL:		http://www.threadingbuildingblocks.org/
@@ -31,7 +32,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
 # We need "arch" binary:
 BuildRequires:	util-linux
-ExclusiveArch:	%{ix86} %{x8664} %{arm} ia64 ppc ppc64
+ExclusiveArch:	%{ix86} %{x8664} x32 %{arm} ia64 ppc ppc64
 # __TBB_machine_cmpswp8 uses gcc's __sync_val_compare_and_swap8 or directly cmpxchg8b asm instruction
 ExcludeArch:	i386 i486
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -88,14 +89,13 @@ Building Blocks (TBB).
 
 %prep
 %setup -q -n %{sourcebasename}
+%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 
 cp -p %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} .
 
 cp -p %{SOURCE5} %{SOURCE6} %{SOURCE7} .
-
-sed -i -e 's/-march=pentium4//' build/linux.gcc.inc
 
 %build
 %{__make} \

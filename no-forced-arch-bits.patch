@@ -1,0 +1,19 @@
+--- tbb43_20150611oss/build/linux.gcc.inc~	2015-06-28 12:13:13.000000000 +0200
++++ tbb43_20150611oss/build/linux.gcc.inc	2015-06-28 12:14:51.385001671 +0200
+@@ -74,14 +74,12 @@
+ 
+ ifeq (intel64,$(arch))
+     ITT_NOTIFY = -DDO_ITT_NOTIFY
+-    CPLUS_FLAGS += -m64 $(RTM_KEY)
+-    LIB_LINK_FLAGS += -m64
++    CPLUS_FLAGS += $(RTM_KEY)
+ endif
+ 
+ ifeq (ia32,$(arch))
+     ITT_NOTIFY = -DDO_ITT_NOTIFY
+-    CPLUS_FLAGS += -m32 -march=pentium4 $(RTM_KEY)
+-    LIB_LINK_FLAGS += -m32
++    CPLUS_FLAGS += $(RTM_KEY)
+ endif
+ 
+ ifeq (ppc64,$(arch))
