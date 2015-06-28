@@ -6,7 +6,7 @@ Summary:	The Threading Building Blocks library abstracts low-level threading det
 Summary(pl.UTF-8):	Threading Building Blocks - biblioteka abstrahująca niskopoziomowe szczegóły obsługi wątków
 Name:		tbb
 Version:	%{major}.%{minor}.%{micro}
-Release:	2
+Release:	3
 License:	GPL v2 with runtime exception
 Group:		Development/Tools
 # Source0Download: https://www.threadingbuildingblocks.org/download
@@ -98,6 +98,9 @@ cp -p %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} .
 cp -p %{SOURCE5} %{SOURCE6} %{SOURCE7} .
 
 %build
+%ifarch x32
+setarch linux32 \
+%endif
 %{__make} \
 	CPLUS="%{__cxx}" \
 	CXXFLAGS="%{rpmcxxflags}" \
