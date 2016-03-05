@@ -1,17 +1,17 @@
 %define		major	4
-%define		minor	3
-%define		micro	20150611
+%define		minor	4
+%define		micro	20160128
 %define		sourcebasename tbb%{major}%{minor}_%{micro}oss
 Summary:	The Threading Building Blocks library abstracts low-level threading details
 Summary(pl.UTF-8):	Threading Building Blocks - biblioteka abstrahująca niskopoziomowe szczegóły obsługi wątków
 Name:		tbb
 Version:	%{major}.%{minor}.%{micro}
-Release:	3
+Release:	1
 License:	GPL v2 with runtime exception
 Group:		Development/Tools
 # Source0Download: https://www.threadingbuildingblocks.org/download
-Source0:	https://www.threadingbuildingblocks.org/sites/default/files/software_releases/source/%{sourcebasename}_src.tgz
-# Source0-md5:	bb144ec868c53244ea6be11921d86f03
+Source0:	https://www.threadingbuildingblocks.org/sites/default/files/software_releases/source/%{sourcebasename}_src_0.tgz
+# Source0-md5:	9d8a4cdf43496f1b3f7c473a5248e5cc
 Source1:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Design_Patterns.pdf
 # Source1-md5:	46062fef922d39abfd464bc06e02cdd8
 Source2:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Getting_Started.pdf
@@ -32,7 +32,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
 # We need "arch" binary:
 BuildRequires:	util-linux
-ExclusiveArch:	%{ix86} %{x8664} x32 %{arm} ia64 ppc ppc64
+ExclusiveArch:	%{ix86} %{x8664} x32 %{arm} aarch64 ia64 ppc ppc64
 # __TBB_machine_cmpswp8 uses gcc's __sync_val_compare_and_swap8 or directly cmpxchg8b asm instruction
 ExcludeArch:	i386 i486
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
