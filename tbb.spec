@@ -1,17 +1,17 @@
-%define		major	4
-%define		minor	4
-%define		micro	20160128
-%define		sourcebasename tbb%{major}%{minor}_%{micro}oss
+# use: major=year, minor=Update version, micro=date
+%define		major	2019
+%define		minor	5
+%define		micro	20190320
 Summary:	The Threading Building Blocks library abstracts low-level threading details
 Summary(pl.UTF-8):	Threading Building Blocks - biblioteka abstrahująca niskopoziomowe szczegóły obsługi wątków
 Name:		tbb
 Version:	%{major}.%{minor}.%{micro}
 Release:	1
-License:	GPL v2 with runtime exception
+License:	Apache v2.0
 Group:		Development/Tools
-# Source0Download: https://www.threadingbuildingblocks.org/download
-Source0:	https://www.threadingbuildingblocks.org/sites/default/files/software_releases/source/%{sourcebasename}_src_0.tgz
-# Source0-md5:	9d8a4cdf43496f1b3f7c473a5248e5cc
+# Source0Download: https://github.com/01org/tbb/releases
+Source0:	https://github.com/01org/tbb/archive/%{major}_U%{minor}/%{name}-%{major}_U%{minor}.tar.gz
+# Source0-md5:	38eae1abb55e1663257f29e8748d3798
 Source1:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Design_Patterns.pdf
 # Source1-md5:	46062fef922d39abfd464bc06e02cdd8
 Source2:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Getting_Started.pdf
@@ -88,7 +88,7 @@ Dokumentacja w formacie PDF dla użytkowników biblioteki C++ Threading
 Building Blocks (TBB).
 
 %prep
-%setup -q -n %{sourcebasename}
+%setup -q -n %{name}-%{major}_U%{minor}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -143,7 +143,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGES COPYING doc/Release_Notes.txt
+%doc CHANGES doc/Release_Notes.txt
 %attr(755,root,root) %{_libdir}/libtbb.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libtbb.so.2
 %attr(755,root,root) %{_libdir}/libtbbmalloc.so.*.*.*
