@@ -1,18 +1,15 @@
-diff -up tbb30_20110419oss/build/linux.gcc.inc\~ tbb30_20110419oss/build/linux.gcc.inc
---- tbb30_20110419oss/build/linux.gcc.inc~	2011-04-19 13:48:58.000000000 +0200
-+++ tbb30_20110419oss/build/linux.gcc.inc	2011-07-26 14:02:48.482006056 +0200
-@@ -59,10 +59,10 @@ ifneq (,$(shell gcc -dumpversion | egrep
- endif
+--- tbb-2019_U9/build/linux.gcc.inc.orig	2019-12-02 19:29:10.832630387 +0100
++++ tbb-2019_U9/build/linux.gcc.inc	2019-12-02 19:31:27.408557158 +0100
+@@ -66,10 +66,10 @@
  
  ifeq ($(cfg), release)
--        CPLUS_FLAGS = $(ITT_NOTIFY) -g -O2 -DUSE_PTHREAD
-+        CPLUS_FLAGS = $(CXXFLAGS) $(ITT_NOTIFY) -g -O2 -DUSE_PTHREAD
+         # -g is set intentionally in the release mode. It should not affect performance.
+-        CPLUS_FLAGS = -O2 -g
++        CPLUS_FLAGS = $(CXXFLAGS) -O2 -g
  endif
  ifeq ($(cfg), debug)
--        CPLUS_FLAGS = -DTBB_USE_DEBUG $(ITT_NOTIFY) -g -O0 -DUSE_PTHREAD
-+        CPLUS_FLAGS = $(CXXFLAGS) -DTBB_USE_DEBUG $(ITT_NOTIFY) -g -O0 -DUSE_PTHREAD
+-        CPLUS_FLAGS = -DTBB_USE_DEBUG -O0 -g
++        CPLUS_FLAGS = $(CXXFLAGS) -DTBB_USE_DEBUG -O0 -g
  endif
  
- ifneq (00,$(lambdas)$(cpp0x))
-
-Diff finished.  Tue Feb 26 13:00:13 2013
+ CPLUS_FLAGS += $(ITT_NOTIFY) -DUSE_PTHREAD -pthread
