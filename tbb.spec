@@ -1,17 +1,18 @@
-# use: major=year, minor=Update version, micro=date
-%define		major	2019
-%define		minor	9
-%define		micro	20191006
+# use: major=year, minor=Update version, [micro=date if present]
+%define		major	2020
+%define		minor	2
+%define		micro	%{nil}
 Summary:	The Threading Building Blocks library abstracts low-level threading details
 Summary(pl.UTF-8):	Threading Building Blocks - biblioteka abstrahująca niskopoziomowe szczegóły obsługi wątków
 Name:		tbb
-Version:	%{major}.%{minor}.%{micro}
+#Version:	%{major}.%{minor}.%{micro}
+Version:	%{major}.%{minor}
 Release:	1
 License:	Apache v2.0
 Group:		Development/Tools
-# Source0Download: https://github.com/01org/tbb/releases
-Source0:	https://github.com/01org/tbb/archive/%{major}_U%{minor}/%{name}-%{major}_U%{minor}.tar.gz
-# Source0-md5:	584edbec127c508f2cd5b6e79ad200fc
+# Source0Download: https://github.com/oneapi-src/oneTBB/releases
+Source0:	https://github.com/01org/tbb/archive/v%{major}.%{minor}/oneTBB-%{major}.%{minor}.tar.gz
+# Source0-md5:	5af6f6c2a24c2043e62e47205e273b1f
 Source1:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Design_Patterns.pdf
 # Source1-md5:	46062fef922d39abfd464bc06e02cdd8
 Source2:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Getting_Started.pdf
@@ -88,7 +89,7 @@ Dokumentacja w formacie PDF dla użytkowników biblioteki C++ Threading
 Building Blocks (TBB).
 
 %prep
-%setup -q -n %{name}-%{major}_U%{minor}
+%setup -q -n oneTBB-%{major}.%{minor}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -143,7 +144,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGES doc/Release_Notes.txt
+%doc CHANGES README.md third-party-programs.txt doc/Release_Notes.txt
 %attr(755,root,root) %{_libdir}/libtbb.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libtbb.so.2
 %attr(755,root,root) %{_libdir}/libtbbmalloc.so.*.*.*
