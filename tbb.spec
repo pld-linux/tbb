@@ -1,6 +1,6 @@
 # use: major=year, minor=Update version, [micro=date if present]
 %define		major	2020
-%define		minor	2
+%define		minor	3
 %define		micro	%{nil}
 Summary:	The Threading Building Blocks library abstracts low-level threading details
 Summary(pl.UTF-8):	Threading Building Blocks - biblioteka abstrahująca niskopoziomowe szczegóły obsługi wątków
@@ -12,7 +12,7 @@ License:	Apache v2.0
 Group:		Development/Tools
 # Source0Download: https://github.com/oneapi-src/oneTBB/releases
 Source0:	https://github.com/01org/tbb/archive/v%{major}.%{minor}/oneTBB-%{major}.%{minor}.tar.gz
-# Source0-md5:	5af6f6c2a24c2043e62e47205e273b1f
+# Source0-md5:	ea8fa4332f4bad10a75a361cba025380
 Source1:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Design_Patterns.pdf
 # Source1-md5:	46062fef922d39abfd464bc06e02cdd8
 Source2:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Getting_Started.pdf
