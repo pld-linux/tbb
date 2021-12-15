@@ -1,35 +1,30 @@
 # use: major=year, minor=Update version, [micro=date if present]
-%define		major	2020
-%define		minor	3
-%define		micro	%{nil}
+%define		major	2021
+%define		minor	4
+%define		micro	0
 Summary:	The Threading Building Blocks library abstracts low-level threading details
 Summary(pl.UTF-8):	Threading Building Blocks - biblioteka abstrahująca niskopoziomowe szczegóły obsługi wątków
 Name:		tbb
-#Version:	%{major}.%{minor}.%{micro}
-Version:	%{major}.%{minor}
+Version:	%{major}.%{minor}.%{micro}
 Release:	1
 License:	Apache v2.0
 Group:		Development/Tools
 # Source0Download: https://github.com/oneapi-src/oneTBB/releases
-Source0:	https://github.com/01org/tbb/archive/v%{major}.%{minor}/oneTBB-%{major}.%{minor}.tar.gz
-# Source0-md5:	ea8fa4332f4bad10a75a361cba025380
+Source0:	https://github.com/01org/tbb/archive/v%{version}/oneTBB-%{version}.tar.gz
+# Source0-md5:	fa317f16003e31e33a57ae7d888403e4
 Source1:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Design_Patterns.pdf
-# Source1-md5:	46062fef922d39abfd464bc06e02cdd8
+# Source1-md5:	3fd5805aa4439b2c46072c9673300a4a
 Source2:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Getting_Started.pdf
-# Source2-md5:	b8f94104c47f9667e537b98bd940494a
+# Source2-md5:	993aca18f0717f3ca3b36a7e4d0e0124
 Source3:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Reference.pdf
-# Source3-md5:	1481cbd378f4964691046d0ba570b374
+# Source3-md5:	c646c043d65a45b460eeb03b0a8ef0fb
 Source4:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Tutorial.pdf
-# Source4-md5:	5bbdd1050c5dac5c1b782a6a98db0c46
-Source5:	%{name}.pc.in
-Source6:	%{name}malloc.pc.in
-Source7:	%{name}malloc_proxy.pc.in
-Patch0:		no-forced-arch-bits.patch
-Patch1:		%{name}-cxxflags.patch
-Patch2:		mfence.patch
+# Source4-md5:	5c712f3a977525d5f23286decb3b1e16
 URL:		http://www.threadingbuildingblocks.org/
+BuildRequires:	cmake >= 3.1
 BuildRequires:	libstdc++-devel
 BuildRequires:	pkgconfig
+BuildRequires:	rpmbuild(macros) >= 1.605
 BuildRequires:	sed >= 4.0
 # We need "arch" binary:
 BuildRequires:	util-linux
@@ -89,52 +84,22 @@ Dokumentacja w formacie PDF dla użytkowników biblioteki C++ Threading
 Building Blocks (TBB).
 
 %prep
-%setup -q -n oneTBB-%{major}.%{minor}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%setup -q -n oneTBB-%{version}
 
 cp -p %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} .
 
-cp -p %{SOURCE5} %{SOURCE6} %{SOURCE7} .
-
 %build
-%ifarch x32
-setarch linux32 \
-%endif
-%{__make} \
-	CPLUS="%{__cxx}" \
-	CXXFLAGS="%{rpmcxxflags}" \
-	tbb_build_prefix=obj
+%cmake -B build \
+	-DTBB_STRICT:BOOL=OFF \
+	-DTBB_TEST:BOOL=OFF
+
+%{__make} -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_libdir},%{_includedir},%{_pkgconfigdir}}
 
-cd build/obj_release
-for file in tbb tbbmalloc tbbmalloc_proxy; do
-	install lib${file}.so.2 $RPM_BUILD_ROOT%{_libdir}/lib${file}.so.2.%{version}
-	ln -s lib${file}.so.2.%{version} $RPM_BUILD_ROOT%{_libdir}/lib${file}.so
-	ln -s lib${file}.so.2.%{version} $RPM_BUILD_ROOT%{_libdir}/lib${file}.so.2
-done
-cd -
-
-cd include
-find tbb -type f -name '*.h' -exec \
-	install -p -D -m 644 {} $RPM_BUILD_ROOT%{_includedir}/{} ';'
-cd -
-
-for pc in tbb.pc tbbmalloc.pc tbbmalloc_proxy.pc; do
-	in=$pc.in
-	# fail if obsolete
-	[ ! -f $RPM_BUILD_ROOT%{_pkgconfigdir}/$pc ] || exit 1
-	sed -e '
-		s,@prefix@,%{_prefix},;
-		s,@libdir@,%{_libdir},;
-		s,@includedir@,%{_includedir}/tbb,;
-		s,@version@,%{version},
-	' $in > $RPM_BUILD_ROOT%{_pkgconfigdir}/$pc
-done
+%{__make} -C build install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -144,12 +109,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGES README.md third-party-programs.txt doc/Release_Notes.txt
-%attr(755,root,root) %{_libdir}/libtbb.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libtbb.so.2
-%attr(755,root,root) %{_libdir}/libtbbmalloc.so.*.*.*
+%doc README.md third-party-programs.txt
+%attr(755,root,root) %{_libdir}/libtbb.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libtbb.so.12
+%attr(755,root,root) %{_libdir}/libtbbmalloc.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libtbbmalloc.so.2
-%attr(755,root,root) %{_libdir}/libtbbmalloc_proxy.so.*.*.*
+%attr(755,root,root) %{_libdir}/libtbbmalloc_proxy.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libtbbmalloc_proxy.so.2
 
 %files devel
@@ -157,10 +122,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libtbb.so
 %attr(755,root,root) %{_libdir}/libtbbmalloc.so
 %attr(755,root,root) %{_libdir}/libtbbmalloc_proxy.so
+# likely to be owned by different package?
+%dir %{_includedir}/oneapi
+%{_includedir}/oneapi/tbb.h
+%{_includedir}/oneapi/tbb
 %{_includedir}/tbb
 %{_pkgconfigdir}/tbb.pc
-%{_pkgconfigdir}/tbbmalloc.pc
-%{_pkgconfigdir}/tbbmalloc_proxy.pc
+%{_libdir}/cmake/TBB
 
 %files doc
 %defattr(644,root,root,755)
