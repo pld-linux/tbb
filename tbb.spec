@@ -13,13 +13,13 @@ Group:		Development/Tools
 Source0:	https://github.com/01org/tbb/archive/v%{version}/oneTBB-%{version}.tar.gz
 # Source0-md5:	fa317f16003e31e33a57ae7d888403e4
 Source1:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Design_Patterns.pdf
-# Source1-md5:	3fd5805aa4439b2c46072c9673300a4a
+# Source1-md5:	46062fef922d39abfd464bc06e02cdd8
 Source2:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Getting_Started.pdf
-# Source2-md5:	993aca18f0717f3ca3b36a7e4d0e0124
+# Source2-md5:	b8f94104c47f9667e537b98bd940494a
 Source3:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Reference.pdf
-# Source3-md5:	c646c043d65a45b460eeb03b0a8ef0fb
+# Source3-md5:	1481cbd378f4964691046d0ba570b374
 Source4:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Tutorial.pdf
-# Source4-md5:	5c712f3a977525d5f23286decb3b1e16
+# Source4-md5:	5bbdd1050c5dac5c1b782a6a98db0c46
 URL:		http://www.threadingbuildingblocks.org/
 BuildRequires:	cmake >= 3.1
 BuildRequires:	libstdc++-devel
