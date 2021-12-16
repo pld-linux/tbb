@@ -23,6 +23,7 @@ Source4:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20So
 URL:		http://www.threadingbuildingblocks.org/
 Patch0:		%{name}-x86_32bit.patch
 BuildRequires:	cmake >= 3.1
+BuildRequires:	hwloc-devel
 BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.605
