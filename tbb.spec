@@ -22,16 +22,21 @@ Source4:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20So
 # Source4-md5:	5bbdd1050c5dac5c1b782a6a98db0c46
 URL:		http://www.threadingbuildingblocks.org/
 BuildRequires:	cmake >= 3.1
-BuildRequires:	libstdc++-devel
+BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.605
 BuildRequires:	sed >= 4.0
-# We need "arch" binary:
-BuildRequires:	util-linux
 ExclusiveArch:	%{ix86} %{x8664} x32 %{arm} aarch64 ia64 ppc ppc64
 # __TBB_machine_cmpswp8 uses gcc's __sync_val_compare_and_swap8 or directly cmpxchg8b asm instruction
 ExcludeArch:	i386 i486
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+# see src/tbb/CMakeLists.txt /TBB_PC_NAME
+%ifarch %{ix86} x32 %{arm} ppc
+%define		tbb_pc_name	tbb32
+%else
+%define		tbb_pc_name	tbb
+%endif
 
 %description
 Threading Building Blocks (TBB) is a C++ runtime library that
@@ -101,6 +106,11 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+%if "%{tbb_pc_name}" != "tbb"
+# for compatibility
+ln -sf %{tbb_pc_name}.pc $RPM_BUILD_ROOT%{_pkgconfigdir}/tbb.pc
+%endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -112,6 +122,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.md third-party-programs.txt
 %attr(755,root,root) %{_libdir}/libtbb.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libtbb.so.12
+%attr(755,root,root) %{_libdir}/libtbbbind.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libtbbbind.so.3
 %attr(755,root,root) %{_libdir}/libtbbmalloc.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libtbbmalloc.so.2
 %attr(755,root,root) %{_libdir}/libtbbmalloc_proxy.so.*.*
@@ -120,6 +132,7 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libtbb.so
+%attr(755,root,root) %{_libdir}/libtbbbind.so
 %attr(755,root,root) %{_libdir}/libtbbmalloc.so
 %attr(755,root,root) %{_libdir}/libtbbmalloc_proxy.so
 # likely to be owned by different package?
@@ -127,7 +140,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/oneapi/tbb.h
 %{_includedir}/oneapi/tbb
 %{_includedir}/tbb
+%{_pkgconfigdir}/%{tbb_pc_name}.pc
+%if "%{tbb_pc_name}" != "tbb"
 %{_pkgconfigdir}/tbb.pc
+%endif
 %{_libdir}/cmake/TBB
 
 %files doc
