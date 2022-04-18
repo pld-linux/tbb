@@ -2,6 +2,11 @@
 %define		major	2021
 %define		minor	4
 %define		micro	0
+
+%ifarch %{armv6}
+%define		with_libatomic	1
+%endif
+
 Summary:	The Threading Building Blocks library abstracts low-level threading details
 Summary(pl.UTF-8):	Threading Building Blocks - biblioteka abstrahująca niskopoziomowe szczegóły obsługi wątków
 Name:		tbb
@@ -24,9 +29,10 @@ URL:		http://www.threadingbuildingblocks.org/
 Patch0:		%{name}-x86_32bit.patch
 BuildRequires:	cmake >= 3.1
 BuildRequires:	hwloc-devel
+%{?with_libatomic:BuildRequires:	libatomic-devel}
 BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	pkgconfig
-BuildRequires:	rpmbuild(macros) >= 1.605
+BuildRequires:	rpmbuild(macros) >= 2.007
 BuildRequires:	sed >= 4.0
 ExclusiveArch:	%{ix86} %{x8664} x32 %{arm} aarch64 ia64 ppc ppc64
 # __TBB_machine_cmpswp8 uses gcc's __sync_val_compare_and_swap8 or directly cmpxchg8b asm instruction
@@ -98,6 +104,7 @@ cp -p %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} .
 
 %build
 %cmake -B build \
+	%{?with_libatomic:-DTBB_LIB_LINK_LIBS=-latomic} \
 	-DTBB_STRICT:BOOL=OFF \
 	-DTBB_TEST:BOOL=OFF
 
