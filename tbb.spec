@@ -11,7 +11,7 @@ Summary:	The Threading Building Blocks library abstracts low-level threading det
 Summary(pl.UTF-8):	Threading Building Blocks - biblioteka abstrahująca niskopoziomowe szczegóły obsługi wątków
 Name:		tbb
 Version:	%{major}.%{minor}.%{micro}
-Release:	1
+Release:	2
 License:	Apache v2.0
 Group:		Development/Tools
 # Source0Download: https://github.com/oneapi-src/oneTBB/releases
@@ -27,6 +27,7 @@ Source4:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20So
 # Source4-md5:	5bbdd1050c5dac5c1b782a6a98db0c46
 URL:		http://www.threadingbuildingblocks.org/
 Patch0:		%{name}-x86_32bit.patch
+Patch1:		retry-pthread-create-eagain.patch
 BuildRequires:	cmake >= 3.1
 BuildRequires:	hwloc-devel
 %{?with_libatomic:BuildRequires:	libatomic-devel}
@@ -99,6 +100,7 @@ Building Blocks (TBB).
 %prep
 %setup -q -n oneTBB-%{version}
 %patch0 -p1
+%patch1 -p1
 
 cp -p %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} .
 
