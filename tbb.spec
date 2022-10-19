@@ -10,13 +10,13 @@
 Summary:	The Threading Building Blocks library abstracts low-level threading details
 Summary(pl.UTF-8):	Threading Building Blocks - biblioteka abstrahująca niskopoziomowe szczegóły obsługi wątków
 Name:		tbb
-Version:	%{major}.%{minor}.%{micro}
-Release:	2
+Version:	2021.6.0
+Release:	1
 License:	Apache v2.0
 Group:		Development/Tools
 # Source0Download: https://github.com/oneapi-src/oneTBB/releases
 Source0:	https://github.com/01org/tbb/archive/v%{version}/oneTBB-%{version}.tar.gz
-# Source0-md5:	5e5f2ee22a0d19c0abbe7478f1c7ccf6
+# Source0-md5:	f0fc961e3c3851b52db61c2d262e6b95
 Source1:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Design_Patterns.pdf
 # Source1-md5:	46062fef922d39abfd464bc06e02cdd8
 Source2:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Getting_Started.pdf
@@ -26,8 +26,7 @@ Source3:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20So
 Source4:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Tutorial.pdf
 # Source4-md5:	5bbdd1050c5dac5c1b782a6a98db0c46
 URL:		http://www.threadingbuildingblocks.org/
-Patch0:		%{name}-x86_32bit.patch
-Patch1:		retry-pthread-create-eagain.patch
+Patch0:		retry-pthread-create-eagain.patch
 BuildRequires:	cmake >= 3.1
 BuildRequires:	hwloc-devel
 %{?with_libatomic:BuildRequires:	libatomic-devel}
@@ -100,7 +99,6 @@ Building Blocks (TBB).
 %prep
 %setup -q -n oneTBB-%{version}
 %patch0 -p1
-%patch1 -p1
 
 cp -p %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} .
 
