@@ -31,6 +31,7 @@ BuildRequires:	hwloc-devel
 %{?with_libatomic:BuildRequires:	libatomic-devel}
 BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	pkgconfig
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 2.007
 BuildRequires:	sed >= 4.0
 ExclusiveArch:	%{ix86} %{x8664} x32 %{arm} aarch64 ia64 ppc ppc64
@@ -86,6 +87,7 @@ Building Blocks.
 Summary:	The Threading Building Blocks documentation
 Summary(pl.UTF-8):	Dokumentacja bibliotek Threading Building Blocks
 Group:		Documentation
+BuildArch:	noarch
 
 %description doc
 PDF documentation for the user of the Threading Building Block (TBB)
