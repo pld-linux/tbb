@@ -10,13 +10,13 @@
 Summary:	The Threading Building Blocks library abstracts low-level threading details
 Summary(pl.UTF-8):	Threading Building Blocks - biblioteka abstrahująca niskopoziomowe szczegóły obsługi wątków
 Name:		tbb
-Version:	2021.12.0
+Version:	2021.13.0
 Release:	1
 License:	Apache v2.0
 Group:		Development/Tools
 # Source0Download: https://github.com/oneapi-src/oneTBB/releases
 Source0:	https://github.com/01org/tbb/archive/v%{version}/oneTBB-%{version}.tar.gz
-# Source0-md5:	558a40c7c3da965a5cfc3fbe0566b5ae
+# Source0-md5:	f287cd007240a838286ff13e7deaee12
 Source1:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Design_Patterns.pdf
 # Source1-md5:	46062fef922d39abfd464bc06e02cdd8
 Source2:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Getting_Started.pdf
