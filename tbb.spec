@@ -25,6 +25,7 @@ Source3:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20So
 # Source3-md5:	1481cbd378f4964691046d0ba570b374
 Source4:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Tutorial.pdf
 # Source4-md5:	5bbdd1050c5dac5c1b782a6a98db0c46
+Patch0:		non-x86-build.patch
 URL:		http://www.threadingbuildingblocks.org/
 BuildRequires:	cmake >= 3.5
 BuildRequires:	hwloc-devel
@@ -99,6 +100,7 @@ Building Blocks (TBB).
 
 %prep
 %setup -q -n oneTBB-%{version}
+%patch -P0 -p1
 
 cp -p %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} .
 
