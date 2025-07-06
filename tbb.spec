@@ -10,13 +10,13 @@
 Summary:	The Threading Building Blocks library abstracts low-level threading details
 Summary(pl.UTF-8):	Threading Building Blocks - biblioteka abstrahująca niskopoziomowe szczegóły obsługi wątków
 Name:		tbb
-Version:	2022.1.0
+Version:	2022.2.0
 Release:	1
 License:	Apache v2.0
 Group:		Development/Tools
 # Source0Download: https://github.com/oneapi-src/oneTBB/releases
 Source0:	https://github.com/01org/tbb/archive/v%{version}/oneTBB-%{version}.tar.gz
-# Source0-md5:	cce28e6cb1ceae14a93848990c98cb6b
+# Source0-md5:	dd62f06431c9dfd274498afa4deba8f5
 Source1:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Design_Patterns.pdf
 # Source1-md5:	46062fef922d39abfd464bc06e02cdd8
 Source2:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Getting_Started.pdf
@@ -132,8 +132,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.md third-party-programs.txt
 %attr(755,root,root) %{_libdir}/libtbb.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libtbb.so.12
-%attr(755,root,root) %{_libdir}/libtbbbind.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libtbbbind.so.3
+%attr(755,root,root) %{_libdir}/libtbbbind_2_0.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libtbbbind_2_0.so.3
 %attr(755,root,root) %{_libdir}/libtbbmalloc.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libtbbmalloc.so.2
 %attr(755,root,root) %{_libdir}/libtbbmalloc_proxy.so.*.*
@@ -142,7 +142,7 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libtbb.so
-%attr(755,root,root) %{_libdir}/libtbbbind.so
+%attr(755,root,root) %{_libdir}/libtbbbind_2_0.so
 %attr(755,root,root) %{_libdir}/libtbbmalloc.so
 %attr(755,root,root) %{_libdir}/libtbbmalloc_proxy.so
 # likely to be owned by different package?
