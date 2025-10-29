@@ -10,13 +10,13 @@
 Summary:	The Threading Building Blocks library abstracts low-level threading details
 Summary(pl.UTF-8):	Threading Building Blocks - biblioteka abstrahująca niskopoziomowe szczegóły obsługi wątków
 Name:		tbb
-Version:	2022.2.0
+Version:	2022.3.0
 Release:	1
 License:	Apache v2.0
 Group:		Development/Tools
 # Source0Download: https://github.com/oneapi-src/oneTBB/releases
 Source0:	https://github.com/01org/tbb/archive/v%{version}/oneTBB-%{version}.tar.gz
-# Source0-md5:	dd62f06431c9dfd274498afa4deba8f5
+# Source0-md5:	2b242c465b194ac8e1451ea1354873ae
 Source1:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Design_Patterns.pdf
 # Source1-md5:	46062fef922d39abfd464bc06e02cdd8
 Source2:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Getting_Started.pdf
@@ -25,7 +25,6 @@ Source3:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20So
 # Source3-md5:	1481cbd378f4964691046d0ba570b374
 Source4:	http://www.threadingbuildingblocks.org/uploads/81/91/Latest%20Open%20Source%20Documentation/Tutorial.pdf
 # Source4-md5:	5bbdd1050c5dac5c1b782a6a98db0c46
-Patch0:		non-x86-build.patch
 URL:		http://www.threadingbuildingblocks.org/
 BuildRequires:	cmake >= 3.5
 BuildRequires:	hwloc-devel
@@ -100,7 +99,6 @@ Building Blocks (TBB).
 
 %prep
 %setup -q -n oneTBB-%{version}
-%patch -P0 -p1
 
 cp -p %{SOURCE1} %{SOURCE2} %{SOURCE3} %{SOURCE4} .
 
